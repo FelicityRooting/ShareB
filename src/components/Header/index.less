@@ -1,0 +1,37 @@
+.header {
+    .header-top {
+        height: 60px;
+        line-height: 60px;//为了让文字垂直方向居中
+        padding: 0 20px;
+        text-align: right;//这样welcome+username和退出的按钮就会在右边
+        a {
+            margin-left: 40px;
+        }//和左边的username有间隔
+    }
+    .breadcrumb {
+        height: 40px;
+        line-height: 40px;
+        padding: 20px;
+        border-top: 1px solid #f9c700;//设置一道线来分割与上面退出按钮的那一行
+        .breadcrumb-title {
+            text-align: center;
+        }
+        .weather {
+            font-size: 14px;
+            text-align: right;
+            .date {
+                margin-right: 5px;
+                vertical-align: middle;
+            }
+            .weather-detail {
+                margin-left: 5px;
+                vertical-align: middle;
+            }
+            .weather-img {
+                img {
+                    height: 15px;
+                }
+            }
+        }
+    }
+}

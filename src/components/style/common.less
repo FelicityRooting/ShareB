@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    .nav-left {
+        // width: 15%;//这里就算不写也行，因为antd的grid系统已经把页面分好了4:20
+        min-width: 180px;
+        color: #ffffff;
+        height: calc(100vh);//高度为100vh，即100%，1vh=1%
+    }
+    .main {
+        // flex: 1; /*让所有弹性盒模型对象的子元素都有相同的长度，且忽略它们内部的内容：*/
+        height: calc(100vh);
+    }
+    .content {
+        position: relative;  
+        padding: 20px;
+    }
+    
+}
