@@ -1,4 +1,6 @@
+@import '../style/default.less';
 .header {
+    background-color: @colorM;
     .header-top {
         height: 60px;
         line-height: 60px;//为了让文字垂直方向居中
@@ -11,16 +13,28 @@
     .breadcrumb {
         height: 40px;
         line-height: 40px;
-        padding: 20px;
+        padding:0 20px;
         border-top: 1px solid #f9c700;//设置一道线来分割与上面退出按钮的那一行
+        //把箭头样式加在这里
+        &:after {
+            position: absolute;
+            content:'';
+            left: 90px;
+            top: 39px;
+            border-top: 9px solid @colorM;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+        }//这个after的位置和视频里的也不一样,里面的有些值也不一样
+    
         .breadcrumb-title {
-            text-align: center;
+            text-align: center;   
+            font-size: @fontC;
         }
         .weather {
             font-size: 14px;
             text-align: right;
             .date {
-                margin-right: 5px;
+                margin-right: 10px;
                 vertical-align: middle;
             }
             .weather-detail {

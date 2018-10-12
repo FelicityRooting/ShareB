@@ -1,13 +1,14 @@
 import React from 'react';
 import MenuConfig from '../../config/menuConfig';
-import { Menu, Icon } from 'antd';
+import { Menu } from 'antd';
 import './index.less';
+import { NavLink } from 'react-router-dom';
 
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
-function handleClick(e) {
-    console.log('click', e);
-}
+// function handleClick(e) {
+//     console.log('click', e);
+// }
 
 export default class NavLeft extends React.Component {
 
@@ -38,11 +39,12 @@ export default class NavLeft extends React.Component {
             }
             //官网上是以menu.item来结尾的
             //没有子节点就得到这个最终的菜单
-            return (
-                <Menu.Item title={item.title} key={item.key}>
-                    {item.title}
-                </Menu.Item>
-            )
+            return <Menu.Item title={item.title} key={item.key}>
+                {/* //加上navlink使title能够与路由链接上 */}
+                    <NavLink to={item.key}>{item.title}</NavLink>
+                    
+            </Menu.Item>
+            
 
         })
     }
@@ -62,6 +64,6 @@ export default class NavLeft extends React.Component {
                     {this.state.menuTreeNode}
                 </Menu>
             </div>
-        )
+        );
     }
 }
