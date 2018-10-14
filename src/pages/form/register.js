@@ -8,9 +8,6 @@ const Option = Select.Option;
 const timeFormat = 'HH:mm:ss';
 const dateFormat = 'YYYY/MM/DD';
 const TextArea = Input.TextArea;
-// const imageUrl = this.state.imageUrl;
-
-
 
 class Register extends React.Component {
     state = {
@@ -45,7 +42,7 @@ class Register extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 // es6模板语法`${}`
-                console.log(JSON.stringify(userInfo));
+                message.success(`${userInfo.userName}, 面试通过了，请于${userInfo.time}去${userInfo.address}上班`,);
             }
         })
     }
@@ -192,7 +189,13 @@ class Register extends React.Component {
                         <FormItem label="联系地址" {...formItemLayout}>
                             {
                                 getFieldDecorator('address', {
-                                    initialValue:'princeton'
+                                    initialValue:'princeton',
+                                    rules: [
+                                        {
+                                            required: true, 
+                                            message: 'Please enter correct address!'
+                                        }
+                                    ]
                                 }) (
                                     <TextArea autosize={
                                         {
@@ -205,7 +208,14 @@ class Register extends React.Component {
                         </FormItem>
                         <FormItem label="早起时间" {...formItemLayout}>
                             {
-                                getFieldDecorator('time') (
+                                getFieldDecorator('time', {
+                                    rules: [
+                                        {
+                                            required: true, 
+                                            message: 'Please enter correct time!'
+                                        }
+                                    ]
+                                }) (
                                     <TimePicker showTime format={timeFormat} />
                                 )
                             }                  

@@ -12,6 +12,7 @@ import Gallery from './pages/ui/gallery';
 import Carousel from './pages/ui/carousel';
 import FormLogin from './pages/form/login';
 import FormRegister from './pages/form/register';
+import BasicTable from './pages/table/basic';
 import Admin from './admin';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -37,6 +38,7 @@ export default class IRouter extends React.Component {
                                     <Route path='/admin/ui/carousel' component={Carousel}></Route>
                                     <Route path='/admin/form/login' component={FormLogin}></Route>
                                     <Route path='/admin/form/reg' component={FormRegister}></Route>
+                                    <Route path='/admin/table/basic' component={BasicTable}></Route>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>            
