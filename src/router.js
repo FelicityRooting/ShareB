@@ -1,6 +1,6 @@
 import React from 'react';
 import App from './App';
-import Login from './pages/login/login';
+// import Login1 from './pages/index';
 import NoMatch from './pages/nomatch/index';
 import Button from './pages/ui/button';
 import Modals from './pages/ui/modals';
@@ -9,6 +9,9 @@ import Notice from './pages/ui/notice';
 import GlobalMessage from './pages/ui/globalmessage';
 import Tabs from './pages/ui/tabs';
 import Gallery from './pages/ui/gallery';
+import Carousel from './pages/ui/carousel';
+import FormLogin from './pages/form/login';
+import FormRegister from './pages/form/register';
 import Admin from './admin';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -20,7 +23,7 @@ export default class IRouter extends React.Component {
                 <Router>
                     {/* 无论<App></App>里面是什么内容，都优先访问App的code */}
                     <App>
-                        <Route path="/login" component={Login}></Route>
+                        {/* <Route path="/login" component={Login1}></Route> */}
                         <Route path="/admin" render={() => 
                             <Admin>
                                 <Switch>
@@ -31,11 +34,14 @@ export default class IRouter extends React.Component {
                                     <Route path='/admin/ui/messages' component={GlobalMessage}></Route>
                                     <Route path='/admin/ui/tabs' component={Tabs}></Route>
                                     <Route path='/admin/ui/gallery' component={Gallery}></Route>
+                                    <Route path='/admin/ui/carousel' component={Carousel}></Route>
+                                    <Route path='/admin/form/login' component={FormLogin}></Route>
+                                    <Route path='/admin/form/reg' component={FormRegister}></Route>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>            
                         }></Route>
-                        <Route path="/order/detail" component={Login}></Route>
+                        <Route path="/order/detail" component={FormLogin}></Route>
                     </App>              
                 </Router>
             </div>
