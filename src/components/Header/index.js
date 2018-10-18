@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Col} from 'antd';
+import {Row, Col, Badge} from 'antd';
 import './index.less';
 import Util from '../../utils/utils';
 import Doc from '../../resource/doc';
@@ -47,7 +47,7 @@ export default class Header extends React.Component {
             <div className="header">
                 <Row className="header-top">
                     <Col span="24">
-                        <span>Welcome, {this.state.userName}</span>
+                        <span>Welcome, {this.state.userName}<Badge count={1000} overflowCount={999}><a href="#" /></Badge></span>
                         <a href="#">Quit</a>
                     </Col>
                 </Row>

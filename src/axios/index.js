@@ -28,8 +28,15 @@ export default class Axios {
     }
 
     static ajax(options) {
+        //loading动画
+        let loading;
+        //判断接口是否要loading动画处理,isShowLoading可在basic.js里定义
+        if (options.data && options.data.isShowLoading !== false) {
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';//开启动画
+        }
+        let baseApi = 'https://easy-mock.com/mock/5bc2c537dfc4ef4ebc52b164/mockdata';
         return new Promise((resolve, reject) => {
-            let baseApi = 'https://easy-mock.com/mock/5bc2c537dfc4ef4ebc52b164/mockdata';
             axios({
                 url: options.url,
                 method: 'get',
@@ -38,6 +45,11 @@ export default class Axios {
                 //如果从url得到的data和params都是true，就取他们，否则取空
                 params: (options.data && options.data.params) || ''
             }).then((response) => {
+                //判断接口是否要loading动画处理,isShowLoading可在basic.js里定义
+                if (options.data && options.data.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';//关闭动画
+                }
                 //http请求自身设置的成功为200
                 if (response.status == '200') {
                     let res = response.data;
