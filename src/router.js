@@ -14,7 +14,9 @@ import FormLogin from './pages/form/login';
 import FormRegister from './pages/form/register';
 import BasicTable from './pages/table/basic';
 import AdvanceTable from './pages/table/advance';
+import Order from './pages/order/index';
 import Admin from './admin';
+import City from './pages/city/index';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 
@@ -41,11 +43,14 @@ export default class IRouter extends React.Component {
                                     <Route path='/admin/form/reg' component={FormRegister}></Route>
                                     <Route path='/admin/table/basic' component={BasicTable}></Route>
                                     <Route path='/admin/table/high' component={AdvanceTable}></Route>
+                                    <Route path='/admin/city' component={City}></Route>
+                                    <Route path='/admin/order' component={Order}></Route>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>            
                         }></Route>
                         <Route path="/order/detail" component={FormLogin}></Route>
+                        
                     </App>              
                 </Router>
             </div>

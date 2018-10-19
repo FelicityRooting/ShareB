@@ -71,4 +71,47 @@ export default class Axios {
             })
         })
     }
+
+    static ajax1(options) {
+        let loading;
+        if (options.data && options.data.isShowLoading !== false) {
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';//开启动画
+        }
+        let baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
+        return new Promise((resolve, reject) => {
+            axios({
+                url: options.url,
+                method: 'get',
+                baseURL: baseApi,
+                timeout: 5000,
+                //如果从url得到的data和params都是true，就取他们，否则取空
+                params: (options.data && options.data.params) || ''
+            }).then((response) => {
+                //判断接口是否要loading动画处理,isShowLoading可在basic.js里定义
+                if (options.data && options.data.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';//关闭动画
+                }
+                //http请求自身设置的成功为200
+                if (response.status == '200') {
+                    let res = response.data;
+                    //code是我们在mockdata自己设置的code = 0
+                    if (res.code == '0') {
+                        //把正确信息抛出
+                        resolve(res);
+                    } else {
+                        //用对话框弹出失败信息
+                        Modal.info({
+                            title: "important！！！",
+                            content: res.msg
+                        })
+                    }
+                } else {
+                    //把错误信息抛出
+                    reject(response.data);
+                }
+            })
+        })
+    }
 }
