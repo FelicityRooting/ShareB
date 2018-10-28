@@ -43,28 +43,43 @@ export default class Header extends React.Component {
         })
     }
     render() {
+        const menuType = this.props.menuType;
         return (
             <div className="header">
                 <Row className="header-top">
-                    <Col span="24">
+                {/* //做一个判断是否是menutype为二级，来决定是否加入logo图片 */}
+                    {
+                        menuType?
+                        <Col span="6" className="logo">
+                            <img src="/assets/logo-ant.svg"></img>
+                            <span>ReactJS通用管理器</span>
+                        </Col> : ''
+                    }
+                    {/* //原来这里是span="24",但是由于上面加了logo图片，所以需要做一个动态判断，根据是否是二级 */}
+                    <Col span={menuType? 18:24}>
                         <span>Welcome, {this.state.userName}<Badge count={1000} overflowCount={999}><a href="#" /></Badge></span>
-                        <a href="#">Quit</a>
+                        <a href="#" style={{color:"red"}}>Quit</a>
                     </Col>
                 </Row>
-                <Row className="breadcrumb">
-                    <Col span="4" className="breadcrumb-title">
-                        <p>首页</p>
-                    </Col>
-                    <Col span="20" className="weather">
-                        <span className="date">{this.state.sysTime}</span>
-                        <span className="weather-img">
-                            <img src={this.state.dayPictureUrl} alt="daypicture"/>   
-                        </span>
-                        <span className="weather-detail">
-                            {this.state.weather}
-                        </span>
-                    </Col>
+                {/* //做一个menuType是否是二级的判断，是就返回空，以便后期重新style header，不是就返回正常的breadcrumb */}
+                {
+                    menuType? '':
+                    <Row className="breadcrumb">
+                        <Col span="4" className="breadcrumb-title">
+                            <p>首页</p>
+                        </Col>
+                        <Col span="20" className="weather">
+                            <span className="date">{this.state.sysTime}</span>
+                            <span className="weather-img">
+                                <img src={this.state.dayPictureUrl} alt="daypicture"/>   
+                            </span>
+                            <span className="weather-detail">
+                                {this.state.weather}
+                            </span>
+                        </Col>
                 </Row>
+                }
+
             </div>
         )
     }

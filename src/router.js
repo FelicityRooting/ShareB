@@ -1,6 +1,6 @@
 import React from 'react';
 import App from './App';
-// import Login1 from './pages/index';
+import Login from './pages/login/index';
 import NoMatch from './pages/nomatch/index';
 import Button from './pages/ui/button';
 import Modals from './pages/ui/modals';
@@ -18,6 +18,8 @@ import Order from './pages/order/index';
 import Admin from './admin';
 import City from './pages/city/index';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import Common from './common';
+import OrderDetail from './pages/order/detail';
 
 
 export default class IRouter extends React.Component {
@@ -49,8 +51,14 @@ export default class IRouter extends React.Component {
                                 </Switch>
                             </Admin>            
                         }></Route>
-                        <Route path="/order/detail" component={FormLogin}></Route>
-                        
+                        {/* //先去common，再加载 具体的页面*/}
+                        <Route path="/common" render={() => 
+                            <Common>
+                                <Route path="/common/order/detail/:orderId" component={OrderDetail}></Route> 
+                            </Common>
+                        }>
+                        </Route>
+                                               
                     </App>              
                 </Router>
             </div>

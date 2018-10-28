@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Card, Form, Table, Select, Modal, DatePicker, Radio, message} from 'antd';
+import { Button, Card, Form, Table, Select, Modal, DatePicker, Radio, message } from 'antd';
 import axios from './../../axios/index';
 import Utils from './../../utils/utils';
 const FormItem = Form.Item;
@@ -7,7 +7,12 @@ const Option = Select.Option;
 
 export default class City extends React.Component {
     state = {
+        orderInfo:{},
+        orderConfirmVisble: false
+    }
 
+    params = {
+        page: 1
     }
 
     componentDidMount() {
@@ -43,8 +48,82 @@ export default class City extends React.Component {
         })
     }
 
-    params = {
-        page: 1
+    //订单结束确认
+    handleConfirm = () => {
+        let item = this.state.seletctedItem;
+        if (!item) {
+            Modal.info({
+                title:'notice',
+                content: 'please choose a order'
+            })
+            return;//没有这条，会提示id是undefined的错误
+        }
+        axios.ajax1({
+            url:'/order/ebike_info',
+            data:{
+                params: {
+                    orderId: item.id
+                }
+            }
+        }).then((res) => {
+            if (res.code == 0) {
+                this.setState({
+                    orderInfo: res.result,
+                    orderConfirmVisble: true
+                })
+            }
+        })
+    }
+
+    handleFinish = () => {
+
+    }
+
+    //结束订单里点ok后
+    handleFinishOrder = () => {
+        let item = this.state.seletctedItem;
+        axios.ajax1({
+            url:'/order/finish_order',
+            data:{
+                params: {
+                    orderId: item.id
+                }
+            }
+        }).then((res) => {
+            if (res.code == 0) {
+                message.success('订单结束成功')
+                this.setState({
+                    orderConfirmVisble: false
+                })
+                //通过requestlist去刷新下列表
+                this.requestList();
+            }
+        })
+    }
+
+    onRowClick = (record, index) => {
+        //保存记住用户所在行的位置,用数组是因为可能是多选
+        let selectKey = [index];
+        this.setState({
+            //通过传入的在页面被选中的索引,指定选中项的 key 数组，存在state里（这样就可以显示出选中了），需要和 onChange 进行配合
+            selectedRowKeys: selectKey,
+            //选中的项，保存用户信息
+            seletctedItem: record
+        })
+    }
+
+    openOrderDetail = () => {
+        //判断有没有选中订单
+        let item = this.state.seletctedItem;
+        if (!item) {
+            Modal.info({
+                title:'notice',
+                content: 'please choose a order'
+            })
+            return;//没有这条，会提示id是undefined的错误
+        }
+        //打开新的窗口
+        window.open(`/#/common/order/detail/${item.id}`, '_blank')
     }
 
     render() {
@@ -97,14 +176,23 @@ export default class City extends React.Component {
                 dataIndex: 'user_pay'
             }
         ]
+        const formItemLayout = {
+            labelCol: {span:5},
+            wrapperCol: {span:19}
+        }
+        const selectedRowKeys = this.state.selectedRowKeys;
+        const rowSelection = {
+            type: 'radio',
+            selectedRowKeys
+        }
         return (
             <div>
                 <Card>
                     <FilterForm />
                 </Card>
                 <Card style={{marginTop:10}}>
-                    <Button type="primary">订单详情</Button>
-                    <Button type="primary">结束订单</Button>
+                    <Button type="primary" onClick={this.openOrderDetail}>订单详情</Button>
+                    <Button type="primary" style={{marginLeft:10}} onClick={this.handleConfirm}>结束订单</Button>
                 </Card>
                 <div className="content-wrap">
                     <Table 
@@ -112,8 +200,39 @@ export default class City extends React.Component {
                         pagination={this.state.pagination} 
                         columns = {columns} 
                         dataSource={this.state.list}
+                        rowSelection={rowSelection}
+                        onRow={(record, index) => {
+                            return {
+                                onClick: () => {
+                                    this.onRowClick(record, index);
+                                }
+                            };
+                        }}
                     />
                 </div>
+                    {/* //这个modal不能改变 */}
+                    <Modal title="结束订单" visible={this.state.orderConfirmVisble} 
+                    onCancel={() => {
+                        this.setState({
+                            orderConfirmVisble: false
+                        })
+                    }} onOk = {this.handleFinishOrder} width={600}>
+                        <Form layout="horizontal">
+                            <FormItem label="车辆编号" {...formItemLayout}>
+                                {this.state.orderInfo.bike_sn}
+                            </FormItem>
+                            <FormItem label="剩余电量" {...formItemLayout}>
+                                {this.state.orderInfo.battery + '%'}
+                            </FormItem>
+                            <FormItem label="行程开始时间" {...formItemLayout}>
+                                {this.state.orderInfo.start_time}
+                            </FormItem>
+                            <FormItem label="当前位置" {...formItemLayout}>
+                                {this.state.orderInfo.location}
+                            </FormItem>
+                        </Form>
+                        
+                    </Modal>
             </div>
         )
     }

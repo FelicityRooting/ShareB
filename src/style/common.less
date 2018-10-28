@@ -1,5 +1,17 @@
 @import './default.less';
 @import './loading.less';
+ul, li {
+    list-style: none;
+}
+//为了使detail里的li标签不会塌陷
+.clearfix {
+    &::after {
+        content: ' ';
+        clear: both;
+        display: block;
+        visibility: hidden;
+    }
+}
 .container {
     // background-color: @colorL;
     // display: flex;//之前这里加上了flex导致布局无法对齐
