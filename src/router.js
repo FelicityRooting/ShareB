@@ -20,6 +20,7 @@ import City from './pages/city/index';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Common from './common';
 import OrderDetail from './pages/order/detail';
+import BikeMap from './pages/map/bikeMap';
 
 
 export default class IRouter extends React.Component {
@@ -47,6 +48,7 @@ export default class IRouter extends React.Component {
                                     <Route path='/admin/table/high' component={AdvanceTable}></Route>
                                     <Route path='/admin/city' component={City}></Route>
                                     <Route path='/admin/order' component={Order}></Route>
+                                    <Route path='/admin/bikeMap' component={BikeMap}></Route>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>            

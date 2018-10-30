@@ -41,6 +41,22 @@ export default {
             options.push(<Option value={item.id} key={item.id}>{item.name}</Option>)
         })
         return options;
+    },
+
+    updateSelectedItem(selectedRowKeys, selectedItem, selectedIds) {
+        //判断单复选，true为多选，false为单选
+        if (selectedIds) {
+            this.setState({
+                selectedRowKeys,
+                selectedItem,
+                selectedIds
+            })
+        } else {
+            this.setState({
+                selectedRowKeys,
+                selectedItem
+            })
+        }
     }
     
 }

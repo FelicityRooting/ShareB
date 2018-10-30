@@ -44,7 +44,7 @@ export default class OrderDetail extends React.Component {
         //由于SPA嵌套第三方API的痛点，SPA是模块化开发，所以必须要导入第三方API,这里使用window，SPA不会检测window是不是一个对象，这里的BMap一开始是无法使用的
         this.map = new window.BMap.Map('orderDetailMap');
         //设置地图中心坐标点，添加控件，比如量尺，放大缩小控件
-        this.map.centerAndZoom('北京',11);    
+        // this.map.centerAndZoom('北京',11);    
         //添加地图控件
         this.addMapControl();  
         //设置不同模板样式风格的地图

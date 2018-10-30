@@ -3,6 +3,7 @@ import { Button, Card, Form, Table, Select, Modal, DatePicker, Radio, message } 
 import axios from './../../axios/index';
 import Utils from './../../utils/utils';
 import BaseForm from '../../components/BaseForm/index';
+import ETable from './../../components/ETable/index';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -134,20 +135,23 @@ export default class Order extends React.Component {
         })
     }
 
-    onRowClick = (record, index) => {
-        //保存记住用户所在行的位置,用数组是因为可能是多选
-        let selectKey = [index];
-        this.setState({
-            //通过传入的在页面被选中的索引,指定选中项的 key 数组，存在state里（这样就可以显示出选中了），需要和 onChange 进行配合
-            selectedRowKeys: selectKey,
-            //选中的项，保存用户信息
-            seletctedItem: record
-        })
-    }
+    //获取当前点击的一行的信息和索引
+    // onRowClick = (record, index) => {
+    //     //保存记住用户所在行的位置,用数组是因为可能是多选
+    //     let selectKey = [index];
+    //     this.setState({
+    //         //通过传入的在页面被选中的索引,指定选中项的 key 数组，存在state里（这样就可以显示出选中了），需要和 onChange 进行配合
+    //         selectedRowKeys: selectKey,
+    //         //选中的项，保存用户信息
+    //         seletctedItem: record
+    //     })
+    //     console.log(this.state.selectedRowKeys);
+    // }
 
     openOrderDetail = () => {
         //判断有没有选中订单
-        let item = this.state.seletctedItem;
+        let item = this.state.selectedItem;
+        console.log(item);
         if (!item) {
             Modal.info({
                 title:'notice',
@@ -213,11 +217,12 @@ export default class Order extends React.Component {
             labelCol: {span:5},
             wrapperCol: {span:19}
         }
-        const selectedRowKeys = this.state.selectedRowKeys;
-        const rowSelection = {
-            type: 'radio',
-            selectedRowKeys
-        }
+        // selectedRowKeys是因为点击onClick事件产生的
+        // const selectedRowKeys = this.state.selectedRowKeys;
+        // const rowSelection = {
+        //     type: 'radio',
+        //     selectedRowKeys
+        // }
         return (
             <div>
                 <Card>
@@ -229,12 +234,24 @@ export default class Order extends React.Component {
                     <Button type="primary" style={{marginLeft:10}} onClick={this.handleConfirm}>结束订单</Button>
                 </Card>
                 <div className="content-wrap">
-                    <Table 
+                    <ETable 
+                    //用来更新选中的项,这里使用bind(this)是把当前页面的scope穿进去，不然updateSelectedItem的scope是Utils里的
+                    updateSelectedItem={Utils.updateSelectedItem.bind(this)}
+                    columns={columns} 
+                    dataSource={this.state.list}
+                    pagination={this.state.pagination} 
+                    selectedRowKeys={this.state.selectedRowKeys}
+                    seletctedItem={this.state.seletctedItem}
+                    selectedIds={this.state.selectedIds}
+                    // rowSelection='checkbox'
+                    />
+                    {/* <Table 
                         bordered 
                         pagination={this.state.pagination} 
                         columns = {columns} 
                         dataSource={this.state.list}
                         rowSelection={rowSelection}
+                        //点击某一行发生的事
                         onRow={(record, index) => {
                             return {
                                 onClick: () => {
@@ -242,7 +259,7 @@ export default class Order extends React.Component {
                                 }
                             };
                         }}
-                    />
+                    /> */}
                 </div>
                     {/* //这个modal不能改变 */}
                     <Modal title="结束订单" visible={this.state.orderConfirmVisble} 
