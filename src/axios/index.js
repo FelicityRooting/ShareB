@@ -1,9 +1,40 @@
 import JsonP from 'jsonp';
 import axios from 'axios';
 import {Modal} from 'antd';
+import Utils from '../utils/utils'
 //封装jsonp的插件
 //封装动态获取mock数据的方法
 export default class Axios {
+    //专门给请求列表使用,isMock用来确定所传入的数据是真实的数据还是mock的数据
+    static requestList (_this, url, params, isMock) {
+        var data = {
+            params: params,
+            isMock: isMock
+        }
+        //调用下面的ajax1方法来做公共机制的拦截
+        this.ajax1({
+            url: url,
+            data: data
+        }).then((data) => {//用then方法接收结果
+            if (data && data.result) {
+                // 如果data是true而且data.result是非空，就进行一系列的操作，如果是false，下面ajax1里就会进行拦截
+                let list = data.result.item_list.map((item, index) => {
+                    item.key = index;//给每个对象添加key值
+                    return item;
+                });
+                //对从easy mock传来的数据做一个遍历,给返回的数据源动态添加key,没有这步，会有红字warning在控制台
+                //凡是要用到setState方法，都要渲染DOM
+                _this.setState({
+                    list: list,
+                    pagination: Utils.pagination(data, (current) => {
+                        //当转到第二页了，参数不需要变，只需要重用request去获取参数，不需要重新存入state
+                        _this.params.page = current;
+                        _this.requestList();
+                    })
+                })
+            }
+        })
+    }
     // 虽然jsonp可以直接用，但是我们习惯把这些第三方插件封装一下，这样的好处是
     // 很多地方调用jsonp时，可以在这里做一个开关，拦截，方便后面有错误的时候进行
     // 处理
@@ -78,7 +109,14 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';//开启动画
         }
-        let baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
+        let baseApi = '';
+        //根据真实情况是否是mock的数据
+        if (options.isMock) {
+            baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
+        } else {
+            baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
+        }
+        // let baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
         return new Promise((resolve, reject) => {
             axios({
                 url: options.url,

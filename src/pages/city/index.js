@@ -54,30 +54,31 @@ export default class City extends React.Component {
     requestList = () => {
         //提取this，防止作用域取不到
         let _this = this;
-        axios.ajax1({
-            url: '/open_city',
-            data: {
-                params: {
-                    page: this.state.page
-                }
-                // isShowLoading: true//默认为true，如果改成false，则不再触发loading动画
-            }
-        }).then((res) => {
-            let list = res.result.item_list.map((item, index) => {
-                item.key = index;
-                return item;
-            });
-            //对从easy mock传来的数据做一个遍历,给返回的数据源动态添加key,没有这步，会有红字warning在控制台
-            //凡是要用到setState方法，都要渲染DOM
-            this.setState({
-                list: list,
-                pagination: Utils.pagination(res, (current) => {
-                    //当转到第二页了，参数不需要变，只需要重用request去获取参数，不需要重新存入state
-                    _this.params.page = current;
-                    this.requestList();
-                })
-            })
-        })
+        axios.requestList(this, '/open_city', this.params,true);//同order一样封装了公共机制
+        // axios.ajax1({
+        //     url: '/open_city',
+        //     data: {
+        //         params: {
+        //             page: this.state.page
+        //         }
+        //         // isShowLoading: true//默认为true，如果改成false，则不再触发loading动画
+        //     }
+        // }).then((res) => {
+        //     let list = res.result.item_list.map((item, index) => {
+        //         item.key = index;
+        //         return item;
+        //     });
+        //     //对从easy mock传来的数据做一个遍历,给返回的数据源动态添加key,没有这步，会有红字warning在控制台
+        //     //凡是要用到setState方法，都要渲染DOM
+        //     this.setState({
+        //         list: list,
+        //         pagination: Utils.pagination(res, (current) => {
+        //             //当转到第二页了，参数不需要变，只需要重用request去获取参数，不需要重新存入state
+        //             _this.params.page = current;
+        //             this.requestList();
+        //         })
+        //     })
+        // })
     }
 
     render () {

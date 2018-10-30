@@ -1,3 +1,7 @@
+import React from 'react';
+import { Select } from 'antd';
+const Option = Select.Option;
+
 export default {
     //封装传入时间的格式
     formateDate(time) {
@@ -24,6 +28,19 @@ export default {
             //快速跳转
             showQuickJumper: true
         }
+    },
+
+    //为components下的baseform封装optionlist
+    getOptionList (data) {
+        if (!data) {
+            return [];
+        }
+        let options = []//[<Option value="0" key="all_key"></Option>]
+        //用map去遍历
+        data.map((item) => {
+            options.push(<Option value={item.id} key={item.id}>{item.name}</Option>)
+        })
+        return options;
     }
     
 }
