@@ -3,6 +3,8 @@ import MenuConfig from '../../config/menuConfig';
 import { Menu } from 'antd';
 import './index.less';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';//用这个把redux和组件连接起来
+import { switchMenu } from './../../redux/action';//调用action
 
 const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
@@ -10,14 +12,34 @@ const SubMenu = Menu.SubMenu;
 //     console.log('click', e);
 // }
 
-export default class NavLeft extends React.Component {
+class NavLeft extends React.Component {
+
+    state = {
+        //这个用来只是现在翻到了那个menu
+        currentKey:''
+    }
+
+    //通过对象的方式结构item
+    handleClick = ({item,key}) => {
+        const { dispatch } = this.props;//因为下面有connect()(NavLeft)才能这样做
+        dispatch(switchMenu(item.props.title));
+        console.log(item.props.title);
+        this.setState({
+            currentKey: item.key
+        })
+    }
 
     //这里通过递归遍历的方式来实现菜单渲染，不能单个单个写，因为后期需要从服务端获取数据渲染
     //一个一个写是不现实 的
     componentWillMount() {
         //调用renderMenu方法，把数组对象MenuConfig传递进去，用一个变量接收对象，得到完整的一棵树menuTreeNode
         const menuTreeNode = this.renderMenu(MenuConfig);
+        //用replace代替掉原来path里的#，但这个方法如果遇到是?就不适用了
+        // let currentKey = window.location.hash.replace('#','');
+        //还一种方法是用正则表达式来替换
+        let currentKey = window.location.hash.replace(/#|\?.*$/g,'');
         this.setState({
+            currentKey,
             menuTreeNode
         });
     }
@@ -58,7 +80,7 @@ export default class NavLeft extends React.Component {
                     <img src="/assets/logo-ant.svg" alt="log-pic"/>
                     <h1>Imooc MS</h1>
                 </div>
-                <Menu theme="dark">
+                <Menu onClick={this.handleClick} theme="dark" selectedKeys={this.state.currentKey}>
                     {/* //所有组件的渲染，菜单的变化，必须要通过setState把对象传进去，才会调用render方法把菜单
                     渲染出来 ，*/}
                     {this.state.menuTreeNode}
@@ -67,3 +89,5 @@ export default class NavLeft extends React.Component {
         );
     }
 }
+
+export default connect()(NavLeft);//将NavLeft丢入redux里面
