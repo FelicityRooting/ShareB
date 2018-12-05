@@ -1,6 +1,6 @@
 import React from "react";
 import './detail.less';
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import axios from './../../axios/index';
 
 

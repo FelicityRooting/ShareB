@@ -29,7 +29,7 @@ export default class Tankuang extends React.Component {
         const imgList = imgs.map((list) => list.map((item) => 
             <Card 
                 style={{marginBottom: 10}}
-                cover={<img src={'/gallery/'+item} onClick={() => this.openGallery(item)}/>} 
+                cover={<img alt="galleryItem" src={'/gallery/'+item} onClick={() => this.openGallery(item)}/>} 
             >
                 <Card.Meta title="Europe Street beat"
                 description="www.instagram.com"/>          

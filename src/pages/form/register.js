@@ -231,7 +231,7 @@ class Register extends React.Component {
                                         onChange={this.handleChange}
                                     >
                                     {/* //如果有值，显示img，如果没值，显示plus号 */}
-                                    {this.state.userImg?<img src={this.state.userImg}/>:<Icon type="plus"/>}
+                                    {this.state.userImg?<img alt="userImg" src={this.state.userImg}/>:<Icon type="plus"/>}
                                     </Upload>
                                 )
                             }
