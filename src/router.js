@@ -22,6 +22,7 @@ import Common from './common';
 import OrderDetail from './pages/order/detail';
 import RichText from './pages/rich/index';
 import BikeMap from './pages/map/bikeMap';
+import Home from './pages/home';
 
 
 export default class IRouter extends React.Component {
@@ -35,6 +36,7 @@ export default class IRouter extends React.Component {
                         <Route path="/admin" render={() => 
                             <Admin>
                                 <Switch>
+                                    <Route path='/admin/home' component={Home}></Route>
                                     <Route path='/admin/ui/buttons' component={Button}></Route>
                                     <Route path='/admin/ui/modals' component={Modals}></Route>
                                     <Route path='/admin/ui/loadings' component={Loading}></Route>
