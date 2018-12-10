@@ -5,10 +5,10 @@ import './index.css';
 // import Router from './pages/route_demo/route3/router';
 import Router from './router';
 import * as serviceWorker from './serviceWorker';
-import configureStore from './redux/store/index';
+import store from './redux/store';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
-const store = configureStore();
+// const store = configureStore();
 
 //引入一个全局的router文件来加载
 ReactDOM.render(

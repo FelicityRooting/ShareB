@@ -3,20 +3,23 @@
 */
 import {type} from './../action'
 const initialState = {
+    cityId:'',
     menuName: '首页'
 }
 
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
     //用switch对action做个判断
-    switch (action) {
+    console.log("reducer1-"+action.menuName);
+    //就是这里action.type只写了action，导致无法更改面包屑的名字
+    switch (action.type) {
         //如果type是switch_menu
-        case type.SWICH_MENU:
+        case type.SWITCH_MENU:
             return {
                 ...state,//旧的state
                 menuName:action.menuName//返回新的state
             } 
-            break;
         default:
-            break;
+            return state;
     }
 }
+export default reducer

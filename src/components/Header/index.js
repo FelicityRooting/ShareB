@@ -4,12 +4,15 @@ import './index.less';
 import Util from '../../utils/utils';
 import axios from '../../axios/index';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 //这时候Header变成子组件
-export default class Header extends React.Component {
+class Header extends React.Component {
 
     //先声明一个时间变量，后面才能setState
-    state={}
+    state={
+        menuName: ''
+    }
     componentWillMount() {
         this.setState({
             userName: 'felicity'
@@ -68,8 +71,8 @@ export default class Header extends React.Component {
                     menuType? '':
                     <Row className="breadcrumb">
                         <Col span="4" className="breadcrumb-title">
-                            {/* {this.props.menuName} */}
-                            首页
+                            {this.props.menuName}
+                            {/* 首页 */}
                         </Col>
                         <Col span="20" className="weather">
                             <span className="date">{this.state.sysTime}</span>
@@ -87,10 +90,11 @@ export default class Header extends React.Component {
         )
     }
 }
-//获取值，这里定义一个回调方法，他返回一个state,这里是一个父组件,Header要从这里拿数据
-// const mapStateToProps = (state) => {
-//     return {
-//         menuName: state.menuName
-//     }
-// }
-// export default connect(mapStateToProps)(Header);
+// 获取值，这里定义一个回调方法，他返回一个state,这里是一个父组件,Header要从这里拿数据
+const mapStateToProps = (state) => {
+    console.log("header-"+state.menuName);
+    return {
+        menuName: state.menuName
+    }
+}
+export default connect(mapStateToProps)(Header);

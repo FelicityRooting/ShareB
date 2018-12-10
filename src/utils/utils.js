@@ -13,14 +13,14 @@ export default {
     //封装分页的插件,data是接收的数据，告诉我们当前是第几页，多少数据，callback是当点击下一页时的，触发callback去回调一个函数
     pagination(data, callback) {
         return {
-            //callback是当前的页码数
-            onChange: (current) => {
-                callback(current)
-            },
             //这个data.result是easy mock平台返回的数据,page，page_size,total都是平台数据的属性
             current: data.result.page,
             pageSize: data.result.page_size,
             total: data.result.total,
+            //callback是当前的页码数
+            onChange: (current) => {
+                callback(current)
+            },
             //pagination自带的方法，用于显示数据总量和当前数据的顺序
             showTotal: () => {
                 return `共${data.result.total}条`

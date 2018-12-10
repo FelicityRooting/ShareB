@@ -19,13 +19,13 @@ class NavLeft extends React.Component {
         currentKey:''
     }
 
-    //通过对象的方式结构item
-    handleClick = ({item,key}) => {
+    
+    // //通过对象的方式结构item
+    handleClick = ({item, key}) => {
         const { dispatch } = this.props;//因为下面有connect()(NavLeft)才能这样做
         dispatch(switchMenu(item.props.title));
-        console.log(item.props.title);
         this.setState({
-            currentKey: item.key
+            currentKey: key
         })
     }
 
@@ -80,7 +80,8 @@ class NavLeft extends React.Component {
                     <img src="/assets/logo-ant.svg" alt="log-pic"/>
                     <h1>Imooc MS</h1>
                 </div>
-                <Menu onClick={this.handleClick} theme="dark" selectedKeys={this.state.currentKey}>
+                {/* <Menu onClick={this.handleClick} theme="dark" selectedKeys={this.state.currentKey}>加上selectedKey控制台会有红字报错 */}
+                <Menu onClick={this.handleClick} theme="dark">
                     {/* //所有组件的渲染，菜单的变化，必须要通过setState把对象传进去，才会调用render方法把菜单
                     渲染出来 ，*/}
                     {this.state.menuTreeNode}
@@ -90,4 +91,14 @@ class NavLeft extends React.Component {
     }
 }
 
+// const mapDispatchToProps = (dispatch) => ({
+//     handleClick (item) {
+//         // const { dispatch } = this.props;//因为下面有connect()(NavLeft)才能这样做
+//         const action = switchMenu(item.title);
+//         dispatch(action);
+//         this.setState({
+//             currentKey: item.key
+//         })
+//     },
+// })
 export default connect()(NavLeft);//将NavLeft丢入redux里面

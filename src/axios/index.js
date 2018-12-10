@@ -104,7 +104,7 @@ export default class Axios {
     }
 
     static ajax1(options) {
-        let loading;
+        let loading;//loading动画
         if (options.data && options.data.isShowLoading !== false) {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';//开启动画

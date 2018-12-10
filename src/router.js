@@ -23,6 +23,7 @@ import OrderDetail from './pages/order/detail';
 import RichText from './pages/rich/index';
 import BikeMap from './pages/map/bikeMap';
 import Home from './pages/home';
+import Permission from './pages/permission';
 
 
 export default class IRouter extends React.Component {
@@ -53,6 +54,7 @@ export default class IRouter extends React.Component {
                                     <Route path='/admin/order' component={Order}></Route>
                                     <Route path='/admin/bikeMap' component={BikeMap}></Route>
                                     <Route path='/admin/rich' component={RichText}></Route>
+                                    <Route path='/admin/permission' component={Permission}></Route>
                                     <Route component={NoMatch} />
                                 </Switch>
                             </Admin>            

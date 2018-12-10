@@ -115,7 +115,7 @@ export default class BasicTable extends React.Component {
             url: '/table/list',
             data: {
                 params: {
-                    page: this.state.page
+                    page: this.params.page
                 },
                 // isShowLoading: true//默认为true，如果改成false，则不再触发loading动画
             }
@@ -310,7 +310,9 @@ export default class BasicTable extends React.Component {
                         //为了实现多选，我们需要存储多个值，改一下rowSelection为我们自定义的rowCheckSelection
                         rowSelection={rowCheckSelection}
                         bordered 
+                        //这里会发生一个问题就是无论点击哪一页，都会固定在第一页，是银easy mock里面数据固定了page = 1
                         pagination={this.state.pagination}
+                        // pagination={true}
                         columns = {columns} 
                         dataSource={this.state.dataSource2}
                     />
